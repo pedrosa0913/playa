@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ir a la playa?</title>
+    <style>
+        /* Fondo bonito */
+        body {
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .button-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100px;
+            position: relative;
+        }
+
+        #yesButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #noButton {
+            background-color: #f44336;
+            color: white;
+            position: absolute;
+        }
+
+        /* Animación de globos */
+        .balloon {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 50px;
+            background-color: #ff6347;
+            border-radius: 50% 50% 0 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-300px); opacity: 0.7; }
+            100% { transform: translateY(-600px); opacity: 0; }
+        }
+
+        /* Mensaje de confirmación */
+        #message {
+            display: none;
+            font-size: 1.3rem;
+            margin-top: 20px;
+            color: #FFD700;
+            animation: fadeIn 2s;
+        }
+
+        #confirmationMessage {
+            display: none;
+            font-size: 1.3rem;
+            color: #FFD700;
+            margin-top: 20px;
+            animation: fadeIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Quieres ir a la playa?</h1>
+        <div class="button-container">
+            <button id="yesButton" onclick="celebrate()">¡Sí!</button>
+            <button id="noButton" onmouseover="moveButton()" onclick="showConfirmationMessage()">No</button>
+        </div>
+        <div id="message">¡Vamos a la playa! 🏖️</div>
+        <div id="confirmationMessage">¿Estás segura de que no quieres ir? 🤔</div>
+    </div>
+
+    <script>
+        let attemptCount = 0;
+
+        function createBalloon() {
+            const balloon = document.createElement("div");
+            balloon.classList.add("balloon");
+            balloon.style.left = `${Math.random() * window.innerWidth}px`;
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(balloon);
+
+            setTimeout(() => balloon.remove(), 3000);
+        }
+
+        function celebrate() {
+            document.getElementById("message").style.display = "block";
+            document.getElementById("confirmationMessage").style.display = "none";
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createBalloon, i * 100);
+            }
+        }
+
+        function moveButton() {
+            const noButton = document.getElementById("noButton");
+
+            // Genera posiciones aleatorias en la pantalla
+            const randomX = Math.floor(Math.random() * (window.innerWidth - noButton.offsetWidth));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - noButton.offsetHeight));
+
+            // Mueve el botón a una nueva posición
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        }
+
+        function showConfirmationMessage() {
+            attemptCount++;
+            const confirmationMessage = document.getElementById("confirmationMessage");
+            confirmationMessage.style.display = "block";
+
+            if (attemptCount >= 3) {
+                confirmationMessage.innerHTML = "¿Seguro que no quieres ir? ¡La playa te espera! 🌊";
+            }
+            if (attemptCount >= 5) {
+                confirmationMessage.innerHTML = "Última oportunidad, ¡solo di que sí! 😉";
+            }
+            if (attemptCount >= 7) {
+                document.getElementById("noButton").style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
